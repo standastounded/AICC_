@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICC – All India Christian Confederation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Subtle, refined palette — slate navy + warm stone + soft saffron accent */
+    --navy:       #1C2B4B;
+    --navy-deep:  #111A30;
+    --navy-mid:   #2A3D6E;
+    --navy-tint:  #EEF1F8;
+    --accent:     #C8621A;   /* muted saffron — warm but not garish */
+    --accent-lt:  #FDF1E8;
+    --sage:       #2E6641;   /* muted green */
+    --sage-tint:  #EDF4EF;
+    --white:      #FFFFFF;
+    --stone:      #F5F4F1;   /* warm off-white */
+    --rule:       #DDE1EC;
+    --text-muted: #6E7A94;
+    --text-main:  #1C2B4B;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',sans-serif; color:var(--text-main); background:var(--white); }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:999;
+    background:var(--white); border-bottom:1px solid var(--rule);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 5%; height:68px;
+    box-shadow:0 1px 8px rgba(28,43,75,0.07);
+  }
+  .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo img { height:46px; object-fit:contain; }
+  .nav-links { display:flex; gap:30px; list-style:none; }
+  .nav-links a {
+    text-decoration:none; color:var(--text-muted); font-weight:500; font-size:0.86rem;
+    letter-spacing:0.4px; padding-bottom:3px;
+    border-bottom:1px solid transparent; transition:all 0.18s;
+  }
+  .nav-links a:hover { color:var(--navy); border-bottom-color:var(--accent); }
+  .nav-links a.active-link { color:var(--navy); border-bottom-color:var(--accent); }
+  .nav-cta {
+    background:var(--navy); color:var(--white); padding:9px 22px;
+    border-radius:3px; font-weight:600; font-size:0.83rem; text-decoration:none;
+    letter-spacing:0.5px; transition:background 0.2s;
+  }
+  .nav-cta:hover { background:var(--navy-mid); }
+  .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; border:none; background:none; padding:4px; }
+  .hamburger span { width:22px; height:1.5px; background:var(--navy); display:block; }
+
+  /* ── PAGE SYSTEM ── */
+  .page { display:none; padding-top:68px; }
+  .page.active { display:block; }
+
+  /* ── SHARED SECTION ── */
+  section { padding:72px 5%; }
+  .section-eye { font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:10px; }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.9rem,3.5vw,2.8rem); color:var(--navy); line-height:1.15; margin-bottom:18px; font-weight:700; }
+  .section-lead { color:var(--text-muted); font-size:0.96rem; line-height:1.85; max-width:580px; margin-bottom:48px; }
+  .divider { width:40px; height:2px; background:var(--accent); margin-bottom:32px; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height:calc(100vh - 68px);
+    background:var(--navy-deep);
+    display:flex; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .hero-bg-map {
+    position:absolute; right:-2%; top:50%; transform:translateY(-50%);
+    width:55%; opacity:0.04;
+    font-size:32vw; line-height:1; user-select:none; pointer-events:none;
+    color:var(--white);
+  }
+  /* Tricolor left strip */
+  .hero-strip {
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+    background:linear-gradient(to bottom,#E07B2A 33.33%,#FFFFFF 33.33%,#FFFFFF 66.66%,#2E6641 66.66%);
+  }
+  .hero-content { position:relative; z-index:2; padding:0 6% 0 7%; max-width:680px; }
+  .hero-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12);
+    color:rgba(255,255,255,0.65); font-size:0.72rem; letter-spacing:2.5px;
+    text-transform:uppercase; padding:7px 14px; border-radius:2px; margin-bottom:30px;
+  }
+  .hero-tag span { width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; }
+  .hero h1 {
+    font-family:'Cormorant Garamond',serif; font-size:clamp(2.6rem,5.5vw,4.4rem);
+    color:var(--white); line-height:1.12; margin-bottom:22px; font-weight:700;
+  }
+  .hero h1 em { color:#E0A070; font-style:normal; }
+  .hero p { color:rgba(255,255,255,0.62); font-size:1rem; line-height:1.85; max-width:520px; margin-bottom:40px; font-weight:300; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-solid { background:var(--accent); color:var(--white); padding:13px 30px; border-radius:3px; font-weight:600; text-decoration:none; font-size:0.88rem; letter-spacing:0.3px; transition:all 0.18s; display:inline-block; }
+  .btn-solid:hover { background:#a84f14; }
+  .btn-ghost { border:1px solid rgba(255,255,255,0.3); color:rgba(255,255,255,0.8); padding:13px 30px; border-radius:3px; font-weight:400; text-decoration:none; font-size:0.88rem; transition:all 0.18s; display:inline-block; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.6); background:rgba(255,255,255,0.06); }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background:var(--stone); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    padding:28px 5%; display:flex; justify-content:space-around; flex-wrap:wrap; gap:16px;
+  }
+  .stat { text-align:center; }
+  .stat-num { font-family:'Cormorant Garamond',serif; font-size:2.6rem; color:var(--navy); font-weight:700; line-height:1; }
+  .stat-label { font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; margin-top:6px; }
+
+  /* ── INTRO ── */
+  .intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  .intro-pull { background:var(--navy-tint); border-left:3px solid var(--accent); padding:36px 32px; border-radius:2px; }
+  .intro-pull .pull-label { font-size:0.7rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  .intro-pull blockquote { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--navy); line-height:1.75; font-style:italic; font-weight:600; }
+  .intro-pull cite { display:block; margin-top:16px; font-size:0.78rem; color:var(--text-muted); font-style:normal; letter-spacing:1px; }
+  .intro-text p { color:var(--text-muted); line-height:1.9; font-size:0.95rem; margin-bottom:18px; }
+  .btn-navy { background:var(--navy); color:var(--white); padding:11px 26px; border-radius:3px; font-weight:500; text-decoration:none; font-size:0.86rem; display:inline-block; transition:background 0.18s; }
+  .btn-navy:hover { background:var(--navy-mid); }
+
+  /* ── PROGRAM CARDS ── */
+  .programs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; }
+  .prog-card {
+    border:1px solid var(--rule); border-radius:4px; padding:30px 26px;
+    background:var(--white); transition:all 0.22s; position:relative;
+  }
+  .prog-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--accent); border-radius:0 0 4px 4px; opacity:0; transition:opacity 0.22s; }
+  .prog-card:hover { box-shadow:0 6px 28px rgba(28,43,75,0.09); transform:translateY(-2px); }
+  .prog-card:hover::after { opacity:1; }
+  .prog-icon { width:40px; height:40px; background:var(--navy-tint); border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:18px; }
+  .prog-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--navy); margin-bottom:10px; font-weight:700; }
+  .prog-card p { font-size:0.84rem; color:var(--text-muted); line-height:1.7; }
+
+  /* ── DUAL CTA ── */
+  .dual-cta { display:grid; grid-template-columns:1fr 1fr; margin:0 5% 72px; border-radius:4px; overflow:hidden; border:1px solid var(--rule); }
+  .cta-half { padding:52px 44px; }
+  .cta-half:first-child { background:var(--navy); border-right:1px solid rgba(255,255,255,0.1); }
+  .cta-half:last-child { background:var(--sage); }
+  .cta-half h3 { font-family:'Cormorant Garamond',serif; font-size:1.7rem; color:var(--white); margin-bottom:12px; font-weight:700; }
+  .cta-half p { color:rgba(255,255,255,0.65); font-size:0.88rem; line-height:1.75; margin-bottom:28px; }
+  .btn-wt { background:var(--white); color:var(--navy); padding:11px 26px; border-radius:3px; font-weight:600; text-decoration:none; font-size:0.86rem; display:inline-block; transition:all 0.18s; }
+  .btn-wt:hover { background:var(--stone); }
+  .btn-wt-outline { border:1px solid rgba(255,255,255,0.45); color:var(--white); padding:11px 26px; border-radius:3px; font-weight:400; text-decoration:none; font-size:0.86rem; display:inline-block; transition:all 0.18s; }
+  .btn-wt-outline:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.7); }
+
+  /* ── PAGE HEROES ── */
+  .page-hero { padding:64px 5% 52px; }
+  .page-hero.navy { background:var(--navy-deep); }
+  .page-hero.navy .section-eye { color:rgba(255,255,255,0.45); }
+  .page-hero.navy .section-title { color:var(--white); }
+  .page-hero.navy p { color:rgba(255,255,255,0.55); max-width:620px; line-height:1.8; font-size:0.96rem; }
+  .page-hero.stone { background:var(--stone); border-bottom:1px solid var(--rule); }
+  .page-hero.stone .section-title { color:var(--navy); }
+  .page-hero.stone p { color:var(--text-muted); max-width:620px; line-height:1.8; font-size:0.96rem; }
+
+  /* ── ABOUT ── */
+  .vm-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .vm-card { padding:40px 36px; border-radius:4px; }
+  .vm-card.vision { background:var(--navy); }
+  .vm-card.mission { background:var(--accent); }
+  .vm-card h3 { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:2px; color:rgba(255,255,255,0.9); margin-bottom:14px; }
+  .vm-card p { color:rgba(255,255,255,0.78); line-height:1.85; font-size:0.93rem; }
+  .objectives-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:16px; }
+  .obj-item { background:var(--stone); border-radius:3px; padding:22px 18px; display:flex; gap:14px; align-items:flex-start; border-left:2px solid var(--rule); transition:border-color 0.18s; }
+  .obj-item:hover { border-left-color:var(--accent); }
+  .obj-n { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--navy); opacity:0.25; min-width:32px; font-weight:700; }
+  .obj-item p { font-size:0.84rem; color:var(--text-main); line-height:1.65; }
+
+  /* ── PROGRAMS DETAIL ── */
+  .prog-detail { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; margin-bottom:56px; padding-bottom:56px; border-bottom:1px solid var(--rule); }
+  .prog-detail:nth-child(even) { direction:rtl; }
+  .prog-detail > * { direction:ltr; }
+  .prog-detail:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .prog-visual { background:var(--navy-tint); border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; min-height:200px; border:1px solid var(--rule); }
+  .prog-tag { display:inline-block; background:var(--accent-lt); color:var(--accent); font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; padding:4px 10px; border-radius:2px; margin-bottom:14px; font-weight:600; }
+  .prog-detail h3 { font-family:'Cormorant Garamond',serif; font-size:1.45rem; color:var(--navy); margin-bottom:12px; font-weight:700; }
+  .prog-detail p { color:var(--text-muted); line-height:1.85; font-size:0.9rem; }
+
+  /* ── TEAM ── */
+  .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:24px; }
+  .team-card { border:1px solid var(--rule); border-radius:4px; overflow:hidden; transition:all 0.22s; background:var(--white); }
+  .team-card:hover { box-shadow:0 6px 28px rgba(28,43,75,0.09); transform:translateY(-2px); }
+  .team-avatar { height:160px; background:var(--navy-tint); display:flex; align-items:center; justify-content:center; font-size:3rem; position:relative; }
+  .avatar-strip { position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(to right,var(--accent) 33%,var(--white) 33%,var(--white) 66%,var(--sage) 66%); }
+  .team-info { padding:20px 18px; }
+  .team-info h4 { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--navy); margin-bottom:4px; font-weight:700; }
+  .team-desig { font-size:0.74rem; color:var(--accent); font-weight:600; letter-spacing:0.5px; margin-bottom:8px; text-transform:uppercase; }
+  .team-info p { font-size:0.82rem; color:var(--text-muted); line-height:1.6; }
+
+  /* ── DONATION ── */
+  .donate-layout { display:grid; grid-template-columns:1fr 1.25fr; gap:48px; align-items:start; }
+  .donate-why h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--navy); margin-bottom:16px; font-weight:700; }
+  .donate-why ul { list-style:none; }
+  .donate-why li { display:flex; gap:10px; align-items:flex-start; padding:11px 0; border-bottom:1px solid var(--stone); font-size:0.88rem; color:var(--text-main); line-height:1.65; }
+  .donate-why li::before { content:'✓'; color:var(--sage); font-weight:700; flex-shrink:0; margin-top:1px; }
+  .donate-form-wrap { background:var(--stone); border-radius:4px; padding:36px; border:1px solid var(--rule); }
+  .donate-form-wrap h3 { font-family:'Cormorant Garamond',serif; font-size:1.25rem; color:var(--navy); margin-bottom:22px; font-weight:700; }
+  .amount-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:18px; }
+  .amt-btn { border:1px solid var(--rule); background:var(--white); padding:11px; border-radius:3px; cursor:pointer; font-weight:600; font-size:0.86rem; color:var(--text-muted); transition:all 0.18s; font-family:inherit; }
+  .amt-btn:hover, .amt-btn.active { border-color:var(--navy); color:var(--navy); background:var(--navy-tint); }
+  .fg { margin-bottom:16px; }
+  .fg label { display:block; font-size:0.72rem; font-weight:600; color:var(--text-muted); margin-bottom:6px; letter-spacing:1px; text-transform:uppercase; }
+  .fg input, .fg select { width:100%; padding:10px 13px; border:1px solid var(--rule); border-radius:3px; font-size:0.88rem; color:var(--text-main); background:var(--white); transition:border-color 0.18s; font-family:inherit; }
+  .fg input:focus, .fg select:focus { outline:none; border-color:var(--navy); }
+  .btn-donate { width:100%; background:var(--navy); color:var(--white); border:none; padding:14px; border-radius:3px; font-weight:600; font-size:0.95rem; cursor:pointer; transition:background 0.18s; font-family:inherit; letter-spacing:0.5px; }
+  .btn-donate:hover { background:var(--navy-mid); }
+  .secure-note { text-align:center; font-size:0.72rem; color:var(--text-muted); margin-top:10px; }
+  .transparency-box { background:var(--sage-tint); border-left:3px solid var(--sage); border-radius:3px; padding:20px 22px; margin-top:28px; }
+  .transparency-box h4 { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--navy); margin-bottom:6px; font-weight:700; }
+  .transparency-box p { font-size:0.82rem; color:var(--text-muted); line-height:1.7; }
+
+  /* ── CONTACT ── */
+  .contact-layout { display:grid; grid-template-columns:1fr 1.4fr; gap:48px; align-items:start; }
+  .contact-info h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--navy); margin-bottom:24px; font-weight:700; }
+  .contact-item { display:flex; gap:14px; align-items:flex-start; margin-bottom:22px; }
+  .c-icon { width:38px; height:38px; background:var(--navy-tint); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+  .contact-item h4 { font-size:0.7rem; font-weight:600; color:var(--text-muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px; }
+  .contact-item p, .contact-item a { font-size:0.88rem; color:var(--text-main); line-height:1.65; text-decoration:none; }
+  .contact-item a:hover { color:var(--accent); }
+  .social-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:28px; }
+  .s-link { display:flex; align-items:center; gap:7px; background:var(--stone); border:1px solid var(--rule); padding:7px 14px; border-radius:3px; text-decoration:none; font-size:0.8rem; color:var(--text-muted); transition:all 0.18s; }
+  .s-link:hover { border-color:var(--navy); color:var(--navy); }
+  .contact-form-wrap { background:var(--stone); border-radius:4px; padding:36px; border:1px solid var(--rule); }
+  .contact-form-wrap h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--navy); margin-bottom:22px; font-weight:700; }
+  .contact-form-wrap textarea { width:100%; padding:10px 13px; border:1px solid var(--rule); border-radius:3px; font-size:0.88rem; color:var(--text-main); font-family:inherit; resize:vertical; min-height:120px; background:var(--white); }
+  .contact-form-wrap textarea:focus { outline:none; border-color:var(--navy); }
+  .btn-submit { background:var(--navy); color:var(--white); border:none; padding:12px 32px; border-radius:3px; font-weight:600; font-size:0.88rem; cursor:pointer; transition:background 0.18s; font-family:inherit; }
+  .btn-submit:hover { background:var(--navy-mid); }
+  .map-box { background:var(--stone); border:1px dashed var(--rule); border-radius:3px; height:180px; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:0.84rem; margin-top:28px; }
+
+  /* ── FOOTER ── */
+  footer { background:var(--navy-deep); color:rgba(255,255,255,0.55); padding:56px 5% 28px; margin-top:80px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:40px; }
+  .footer-brand h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--white); margin-bottom:10px; font-weight:700; }
+  .footer-brand p { font-size:0.83rem; line-height:1.85; }
+  .footer-col h4 { font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  .footer-col ul { list-style:none; }
+  .footer-col li { margin-bottom:9px; }
+  .footer-col a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.83rem; transition:color 0.18s; }
+  .footer-col a:hover { color:rgba(255,255,255,0.9); }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:22px; display:flex; justify-content:space-between; align-items:center; font-size:0.76rem; }
+  .tc-dots { display:flex; gap:5px; }
+  .tc-dot { width:8px; height:8px; border-radius:50%; }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:768px) {
+    .nav-links { display:none; }
+    .hamburger { display:flex; }
+    .intro-grid, .vm-grid, .donate-layout, .contact-layout, .footer-grid { grid-template-columns:1fr; }
+    .dual-cta { grid-template-columns:1fr; margin:0 3% 56px; }
+    .cta-half:first-child { border-right:none; border-bottom:1px solid rgba(255,255,255,0.1); }
+    .prog-detail { grid-template-columns:1fr; }
+    .prog-detail:nth-child(even) { direction:ltr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('home');return false;">
+    <img src="/mnt/user-data/uploads/AICC_logo_final.png" alt="AICC Logo">
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+    <li><a href="#" onclick="showPage('about');return false;">About Us</a></li>
+    <li><a href="#" onclick="showPage('programs');return false;">Programs</a></li>
+    <li><a href="#" onclick="showPage('leadership');return false;">Leadership</a></li>
+    <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+  </ul>
+  <a href="#" class="nav-cta" onclick="showPage('donate');return false;">Donate</a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-strip"></div>
+    <div class="hero-bg-map">🕊</div>
+    <div class="hero-content">
+      <div class="hero-tag"><span></span>All India Christian Confederation</div>
+      <h1>United in Faith,<br><em>Standing for Justice</em></h1>
+      <p>A nationwide movement transcending caste divisions — defending Christian rights, uplifting marginalized communities, and amplifying one unified voice across every state of India.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-solid" onclick="showPage('about');return false;">Our Mission</a>
+        <a href="#" class="btn-ghost" onclick="showPage('donate');return false;">Support AICC</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat"><div class="stat-num">28+</div><div class="stat-label">States Covered</div></div>
+    <div class="stat"><div class="stat-num">20</div><div class="stat-label">Core Objectives</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Programs</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Unified Voice</div></div>
+  </div>
+
+  <section>
+    <div class="intro-grid">
+      <div class="intro-text">
+        <div class="section-eye">Who We Are</div>
+        <h2 class="section-title">A Confederation Built on Solidarity</h2>
+        <div class="divider"></div>
+        <p>The All India Christian Confederation (AICC) is dedicated to fostering unity and defending the rights of Christians across India. We transcend caste divisions to promote an inclusive ethos within the Christian community.</p>
+        <p>Through peaceful advocacy, legal engagement, and community support, we safeguard churches and believers — working towards fair representation in governance and public life for all Christians in India.</p>
+        <br>
+        <a href="#" class="btn-navy" onclick="showPage('about');return false;">Read Our Story</a>
+      </div>
+      <div class="intro-pull">
+        <div class="pull-label">Our Foundation</div>
+        <blockquote>"Every Christian in India — regardless of caste, region, or denomination — deserves dignity, safety, and equal representation. AICC exists to make that a reality through collective action and unwavering advocacy."</blockquote>
+        <cite>— All India Christian Confederation</cite>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--stone);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);">
+    <div class="section-eye">What We Do</div>
+    <h2 class="section-title">Programs & Services</h2>
+    <p class="section-lead">Five core pillars designed to protect, empower, and unite Christians across India.</p>
+    <div class="programs-grid">
+      <div class="prog-card">
+        <div class="prog-icon">⚖️</div>
+        <h3>Advocacy & Legal Support</h3>
+        <p>Free legal assistance for Christians facing persecution or discrimination, ensuring justice and protection under law across all states.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-icon">🤝</div>
+        <h3>Community Support & Upliftment</h3>
+        <p>Education, employment pathways, and social programs for socio-economically disadvantaged Christian families and individuals.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-icon">📢</div>
+        <h3>Awareness & Education</h3>
+        <p>Know-your-rights workshops, leadership training, and educational initiatives that build understanding across Indian society.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-icon">✊</div>
+        <h3>Advocacy Campaigns</h3>
+        <p>Peaceful, democratic campaigns protecting churches and believers — seeking legal and social remedies through lawful means.</p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-icon">📋</div>
+        <h3>Documentation & Monitoring</h3>
+        <p>Rigorous documentation of discrimination and violence against Christians, building evidence for legal action and policy reform.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="padding-top:72px;">
+    <div class="dual-cta">
+      <div class="cta-half">
+        <h3>Make a Difference</h3>
+        <p>Your contribution funds legal aid, community programs, and campaigns protecting Christians across India.</p>
+        <a href="#" class="btn-wt" onclick="showPage('donate');return false;">Donate Now</a>
+      </div>
+      <div class="cta-half">
+        <h3>Get Involved</h3>
+        <p>Join our network of advocates, volunteers, and community leaders building a more just India for all Christians.</p>
+        <a href="#" class="btn-wt-outline" onclick="showPage('contact');return false;">Join the Movement</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /home -->
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero navy">
+    <div class="section-eye">Our Story</div>
+    <h1 class="section-title">About AICC</h1>
+    <p>The All India Christian Confederation — established to be the unified, non-partisan voice of Christians across India, standing firmly against injustice in all its forms.</p>
+  </div>
+
+  <section>
+    <div class="section-eye">Introduction</div>
+    <h2 class="section-title">Who We Are</h2>
+    <div class="divider"></div>
+    <p style="color:var(--text-muted);line-height:1.9;max-width:760px;margin-bottom:18px;font-size:0.96rem;">AICC is dedicated to fostering unity and defending the rights of Christians across India. We transcend caste divisions to promote an inclusive ethos within the Christian community. AICC addresses injustices, advocates for legal protections, and supports socio-economically disadvantaged Christians.</p>
+    <p style="color:var(--text-muted);line-height:1.9;max-width:760px;font-size:0.96rem;">Through peaceful protests, legal engagement, and public advocacy, we safeguard churches and believers from atrocities. We work towards fair representation in governance, secure cemetery land, and ensure the legal recognition of church properties. Collaborating with civil society and international organizations, AICC amplifies advocacy efforts and promotes Christian perspectives in public discourse and policymaking.</p>
+  </section>
+
+  <section style="background:var(--stone);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);">
+    <div class="section-eye">Direction</div>
+    <h2 class="section-title">Vision & Mission</h2>
+    <div class="vm-grid">
+      <div class="vm-card vision">
+        <h3>Vision</h3>
+        <p>A united, inclusive, and empowered Christian community in India — free from caste divisions, discrimination, and marginalization — with full and equal participation in the nation's civic, political, and social life.</p>
+      </div>
+      <div class="vm-card mission">
+        <h3>Mission</h3>
+        <p>To defend the rights of Christians across India through legal advocacy, peaceful campaigns, community support, and strategic partnerships — ensuring justice, representation, and dignity for every believer.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-eye">What We Stand For</div>
+    <h2 class="section-title">Our 20 Core Objectives</h2>
+    <p class="section-lead">AICC operates on a comprehensive mandate to protect and uplift Christians across India.</p>
+    <div class="objectives-grid">
+      <div class="obj-item"><span class="obj-n">01</span><p>Establish and promote an inclusive ethos that transcends caste divisions within the Christian community, fostering unity and solidarity.</p></div>
+      <div class="obj-item"><span class="obj-n">02</span><p>Advocate for and defend the rights of Christians, ensuring freedom of religion and protection from discrimination and persecution.</p></div>
+      <div class="obj-item"><span class="obj-n">03</span><p>Address and combat all forms of injustice targeting Christianity, including discrimination, violence, and cultural marginalization.</p></div>
+      <div class="obj-item"><span class="obj-n">04</span><p>Organize peaceful protests and advocacy campaigns to protect churches and believers from atrocities, seeking legal and social remedies.</p></div>
+      <div class="obj-item"><span class="obj-n">05</span><p>Engage with the legal system to ensure fair and equitable justice for victims of anti-Christian violence and discrimination.</p></div>
+      <div class="obj-item"><span class="obj-n">06</span><p>Implement programs aimed at uplifting socio-economically disadvantaged Christians, providing education, employment, and social support.</p></div>
+      <div class="obj-item"><span class="obj-n">07</span><p>Lobby for registration and legal recognition of church properties, safeguarding sacred spaces from encroachment and seizure.</p></div>
+      <div class="obj-item"><span class="obj-n">08</span><p>Advocate for fair representation of Christians in public and governance roles, ensuring their voices are heard in policy-making.</p></div>
+      <div class="obj-item"><span class="obj-n">09</span><p>Campaign for the allocation of cemetery land specifically designated for Christian communities, respecting their religious traditions.</p></div>
+      <div class="obj-item"><span class="obj-n">10</span><p>Maintain independence and neutrality from political parties, focusing solely on advancing the interests and rights of the Christian community.</p></div>
+      <div class="obj-item"><span class="obj-n">11</span><p>Collaborate with civil society organizations and religious groups to amplify advocacy efforts and promote solidarity.</p></div>
+      <div class="obj-item"><span class="obj-n">12</span><p>Provide legal assistance and support to Christians facing persecution or discrimination, ensuring access to justice under the law.</p></div>
+      <div class="obj-item"><span class="obj-n">13</span><p>Conduct educational programs to raise awareness about Christian rights and issues, fostering understanding and tolerance in society.</p></div>
+      <div class="obj-item"><span class="obj-n">14</span><p>Establish community centers or support networks to provide assistance and resources to vulnerable Christians.</p></div>
+      <div class="obj-item"><span class="obj-n">15</span><p>Monitor and document instances of discrimination and violence against Christians, advocating for systemic reforms and policy changes.</p></div>
+      <div class="obj-item"><span class="obj-n">16</span><p>Develop partnerships with international human rights organizations to amplify advocacy efforts on a global scale.</p></div>
+      <div class="obj-item"><span class="obj-n">17</span><p>Provide training and capacity-building programs for Christian leaders and activists to effectively advocate for their rights.</p></div>
+      <div class="obj-item"><span class="obj-n">18</span><p>Collaborate with educational institutions to integrate Christian history and values into school curricula.</p></div>
+      <div class="obj-item"><span class="obj-n">19</span><p>Advocate for inclusion of Christian perspectives in public discourse and policymaking processes.</p></div>
+      <div class="obj-item"><span class="obj-n">20</span><p>Establish a mechanism for monitoring and reporting on implementation of laws related to religious freedom and minority rights.</p></div>
+    </div>
+  </section>
+</div><!-- /about -->
+
+<!-- ═══════════════ PROGRAMS ═══════════════ -->
+<div id="page-programs" class="page">
+  <div class="page-hero stone">
+    <div class="section-eye">What We Do</div>
+    <h1 class="section-title">Programs & Services</h1>
+    <p>Five pillars of action defining how AICC serves and protects Christians across every corner of India.</p>
+  </div>
+  <section>
+    <div class="prog-detail">
+      <div class="prog-visual">⚖️</div>
+      <div>
+        <span class="prog-tag">Legal</span>
+        <h3>Advocacy & Legal Support</h3>
+        <p>AICC provides comprehensive legal assistance to Christians facing persecution, discrimination, or violations of their religious freedom. We engage directly with the judicial system to ensure fair outcomes for victims of anti-Christian violence. Our legal work spans property disputes involving church land, criminal cases of religious persecution, and ensuring existing laws protecting religious minorities are enforced effectively. We also advocate for stronger legislation where gaps exist, working with experienced civil rights attorneys across states.</p>
+      </div>
+    </div>
+    <div class="prog-detail">
+      <div class="prog-visual">🤝</div>
+      <div>
+        <span class="prog-tag">Community</span>
+        <h3>Community Support & Upliftment</h3>
+        <p>Recognizing that socio-economic disadvantage disproportionately affects marginalized Christian communities, AICC implements targeted programs to break cycles of poverty and exclusion. Initiatives include scholarship programs for Christian students, vocational training and employment placement, micro-finance support for small businesses, and establishment of community centers offering resources and safe spaces. We work at the grassroots level, partnering with local churches and organizations for sustained impact.</p>
+      </div>
+    </div>
+    <div class="prog-detail">
+      <div class="prog-visual">📢</div>
+      <div>
+        <span class="prog-tag">Education</span>
+        <h3>Awareness & Education</h3>
+        <p>Building understanding is essential to building justice. AICC conducts educational programs targeting both the Christian community and broader Indian society. For Christians, we provide know-your-rights workshops, leadership training, and capacity-building programs. For the general public, we work with educational institutions to promote accurate Christian history and engage media for balanced representation of Christian communities and their contributions to Indian society.</p>
+      </div>
+    </div>
+    <div class="prog-detail">
+      <div class="prog-visual">✊</div>
+      <div>
+        <span class="prog-tag">Campaigns</span>
+        <h3>Advocacy Campaigns</h3>
+        <p>When dialogue alone is insufficient, AICC organizes peaceful, democratic advocacy campaigns that make the collective voice of Indian Christians heard. We coordinate protests, public demonstrations, media campaigns, and lobbying efforts targeting both state and central government. Campaigns have focused on securing cemetery land, opposing unconstitutional interference in church affairs, and pushing for fair representation in government institutions — always within lawful, democratic means.</p>
+      </div>
+    </div>
+    <div class="prog-detail">
+      <div class="prog-visual">📋</div>
+      <div>
+        <span class="prog-tag">Monitoring</span>
+        <h3>Documentation & Monitoring</h3>
+        <p>AICC maintains a rigorous system for monitoring, documenting, and reporting incidents of discrimination and violence against Christians across India. This database serves as evidence for legal cases, policy advocacy, and international reporting. We collaborate with international human rights organizations to amplify findings globally, creating accountability. Our monitoring mechanism also tracks implementation of existing laws protecting religious minorities, ensuring authorities fulfill their legal obligations.</p>
+      </div>
+    </div>
+  </section>
+</div><!-- /programs -->
+
+<!-- ═══════════════ LEADERSHIP ═══════════════ -->
+<div id="page-leadership" class="page">
+  <div class="page-hero navy">
+    <div class="section-eye">The People Behind AICC</div>
+    <h1 class="section-title">Leadership & Team</h1>
+    <p>Our confederation is led by committed Christians from across India, bringing expertise in law, community organizing, theology, and public affairs.</p>
+  </div>
+  <section>
+    <div class="section-eye">National Leadership</div>
+    <h2 class="section-title">Executive Committee</h2>
+    <div class="divider"></div>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-avatar">
+          <span style="font-size:3rem;">👤</span>
+          <div class="avatar-strip"></div>
+        </div>
+        <div class="team-info">
+          <h4>Mr. Adisiyaraj Yabesh</h4>
+          <div class="team-desig">President</div>
+          <p>National president of AICC, leading strategic direction and representing the confederation at the national level.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">
+          <span style="font-size:3rem;">👤</span>
+          <div class="avatar-strip"></div>
+        </div>
+        <div class="team-info">
+          <h4>Mr. Sam Jebadurai</h4>
+          <div class="team-desig">General Secretary</div>
+          <p>Responsible for coordination of state chapters, day-to-day operations, and inter-organizational communication.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">
+          <span style="font-size:3rem;">👤</span>
+          <div class="avatar-strip"></div>
+        </div>
+        <div class="team-info">
+          <h4>Mr. NGR Christopher Selavraj</h4>
+          <div class="team-desig">National Coordinator</div>
+          <p>Coordinates AICC's programs and initiatives across all state chapters, ensuring unified implementation of the national agenda.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">
+          <span style="font-size:3rem;">👤</span>
+          <div class="avatar-strip"></div>
+        </div>
+        <div class="team-info">
+          <h4>Mr. Robinson Britto</h4>
+          <div class="team-desig">Treasurer</div>
+          <p>Ensures financial accountability, manages donor relationships, and oversees transparent fund allocation across programs.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- /leadership -->
+
+<!-- ═══════════════ DONATION ═══════════════ -->
+<div id="page-donate" class="page">
+  <div class="page-hero navy">
+    <div class="section-eye">Support Our Work</div>
+    <h1 class="section-title">Make a Donation</h1>
+    <p>Every rupee you give goes directly to legal aid, community programs, and advocacy campaigns protecting Christians across India.</p>
+  </div>
+  <section>
+    <div class="donate-layout">
+      <div class="donate-why">
+        <h3>Why Your Support Matters</h3>
+        <ul>
+          <li>Fund free legal representation for Christians facing discrimination and persecution</li>
+          <li>Support scholarships and vocational training for disadvantaged Christian youth</li>
+          <li>Power peaceful advocacy campaigns protecting churches and believers</li>
+          <li>Enable documentation and monitoring of religious freedom violations across India</li>
+          <li>Build community centers providing resources to vulnerable Christian families</li>
+          <li>Support training programs developing next-generation Christian advocates and leaders</li>
+          <li>Amplify India's Christian rights issues on international platforms</li>
+        </ul>
+        <div class="transparency-box">
+          <h4>Transparent & Accountable</h4>
+          <p>AICC maintains complete financial transparency. Annual reports are published detailing how every donation is utilized across our five core programs.</p>
+        </div>
+      </div>
+      <div class="donate-form-wrap">
+        <h3>Choose Your Contribution</h3>
+        <div class="amount-grid">
+          <button class="amt-btn" onclick="selAmt(this,'500')">₹500</button>
+          <button class="amt-btn active" onclick="selAmt(this,'1000')">₹1,000</button>
+          <button class="amt-btn" onclick="selAmt(this,'2500')">₹2,500</button>
+          <button class="amt-btn" onclick="selAmt(this,'5000')">₹5,000</button>
+          <button class="amt-btn" onclick="selAmt(this,'10000')">₹10,000</button>
+          <button class="amt-btn" onclick="selAmt(this,'')">Custom</button>
+        </div>
+        <div class="fg">
+          <label>Amount (₹)</label>
+          <input type="number" id="amtInput" value="1000" placeholder="Enter amount">
+        </div>
+        <div class="fg">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your full name">
+        </div>
+        <div class="fg">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="fg">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 XXXXX XXXXX">
+        </div>
+        <div class="fg">
+          <label>Donation Purpose</label>
+          <select>
+            <option>General Fund</option>
+            <option>Legal Aid</option>
+            <option>Community Upliftment</option>
+            <option>Advocacy Campaigns</option>
+            <option>Education Programs</option>
+          </select>
+        </div>
+        <button class="btn-donate" onclick="alert('Payment gateway integration pending. Thank you for your support!')">Proceed to Secure Payment</button>
+        <p class="secure-note">🔒 Payment gateway integration coming soon. All transactions will be encrypted and RBI-compliant.</p>
+      </div>
+    </div>
+  </section>
+</div><!-- /donate -->
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero stone">
+    <div class="section-eye">Reach Out</div>
+    <h1 class="section-title">Contact AICC</h1>
+    <p>Whether you need legal assistance, want to volunteer, or simply want to learn more about our work — we're here.</p>
+  </div>
+  <section>
+    <div class="contact-layout">
+      <div class="contact-info">
+        <h3>Get in Touch</h3>
+        <div class="contact-item">
+          <div class="c-icon">📍</div>
+          <div>
+            <h4>Office Address</h4>
+            <p>No. 10, 12th Street, 15th Main Road<br>Anna Nagar, Chennai – 600 040<br>Tamil Nadu, India</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:+919677463528">+91 96774 63528</a>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:3px;">Mon – Sat, 9 AM to 6 PM</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:aicc.admin@gmail.com">aicc.admin@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">💬</div>
+          <div>
+            <h4>WhatsApp</h4>
+            <a href="https://wa.me/919677463528">+91 96774 63528</a>
+          </div>
+        </div>
+        <h4 style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin:24px 0 12px;">Follow AICC</h4>
+        <div class="social-row">
+          <a href="#" class="s-link">📘 Facebook</a>
+          <a href="#" class="s-link">🐦 Twitter / X</a>
+          <a href="#" class="s-link">📸 Instagram</a>
+          <a href="#" class="s-link">▶️ YouTube</a>
+        </div>
+        <div class="map-box">🗺️ Google Maps – Anna Nagar, Chennai<br><span style="font-size:0.76rem;opacity:0.6;">Embed coming soon</span></div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <h3>Send Us a Message</h3>
+        <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+        <div class="fg"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+        <div class="fg"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+        <div class="fg">
+          <label>Subject</label>
+          <select>
+            <option>General Inquiry</option>
+            <option>Legal Assistance</option>
+            <option>Volunteer / Get Involved</option>
+            <option>Media & Press</option>
+            <option>Donation & Funding</option>
+            <option>Partnership Inquiry</option>
+            <option>Report an Incident</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Message</label>
+          <textarea placeholder="Describe your inquiry or how you'd like to get involved..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="alert('Message received. We will respond within 48 hours.')">Send Message</button>
+      </div>
+    </div>
+  </section>
+</div><!-- /contact -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>All India Christian Confederation</h3>
+      <p>Uniting Christians across India in pursuit of justice, dignity, and equal representation. Transcending caste, transcending division — one voice for all.</p>
+      <div class="tc-dots" style="margin-top:18px;">
+        <div class="tc-dot" style="background:#C8621A;"></div>
+        <div class="tc-dot" style="background:rgba(255,255,255,0.3);"></div>
+        <div class="tc-dot" style="background:#2E6641;"></div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+        <li><a href="#" onclick="showPage('about');return false;">About Us</a></li>
+        <li><a href="#" onclick="showPage('programs');return false;">Programs</a></li>
+        <li><a href="#" onclick="showPage('leadership');return false;">Leadership</a></li>
+        <li><a href="#" onclick="showPage('donate');return false;">Donate</a></li>
+        <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919677463528">+91 96774 63528</a></li>
+        <li><a href="mailto:aicc.admin@gmail.com">aicc.admin@gmail.com</a></li>
+        <li><a href="#">Anna Nagar, Chennai – 600 040</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 All India Christian Confederation. All rights reserved.</span>
+    <span style="opacity:0.4;">Anna Nagar, Chennai</span>
+  </div>
+</footer>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById('page-' + name);
+  if(t) { t.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+  // close mobile nav if open
+  const nl = document.getElementById('navLinks');
+  nl.style.display = '';
+}
+function toggleNav() {
+  const nl = document.getElementById('navLinks');
+  const open = nl.style.display === 'flex';
+  if(open) {
+    nl.style.display = '';
+  } else {
+    nl.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:#fff;padding:16px 5%;border-bottom:1px solid #DDE1EC;box-shadow:0 4px 12px rgba(0,0,0,0.08);gap:14px;';
+  }
+}
+function selAmt(btn, val) {
+  document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const inp = document.getElementById('amtInput');
+  if(val) { inp.value = val; } else { inp.value=''; inp.focus(); }
+}
+</script>
+</body>
+</html>
